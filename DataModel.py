@@ -12,6 +12,14 @@ class DataModel:
         Loads data from a delimited file.  The file must have columns corresponding to
         user, item and rating field.  Most of the code in this method was borrow from another
         python recommender system at (https://github.com/ocelma/python-recsys.git)
+        
+        :param filename: The name of the data file
+        :type filename: string
+        :param sep: The column delimiter of the file
+        :type sep: string
+        :param format: The format of the file contents, where the label of a column acts as a
+            key and the index of the column is the value
+        :type format: dict
         """
             rows = []
             columns = []
@@ -177,6 +185,15 @@ class DataModel:
     def split_train_test(self, training_percentage=.80, normalize=True, remove_bias=True, randomize=False):
         """
         Splits the data into a training set and a test set
+        
+        :param training_percentage: the percentage of the dataset that is in the training set
+        :type training_percentage: float
+        :param normalize: whether the training set should be normalized
+        :type normalize: boolean
+        :param remove_bias: whether the item and user biases should be removed from the training set
+        :type remove_bias: boolean
+        :param randomize: whether the dataset should be randomized
+        :type randomize: boolean
         """
         print "Splitting....\n"
         if self._data is None:
@@ -205,7 +222,17 @@ class DataModel:
 
     def split_train_validate_test(self, training_percentage=.80, normalize=True, remove_bias=True, randomize=False):
         """
-        Splits the data set into a training set, test set and validation set
+        Splits the data set into a training set, test set and validation set. The test and validation sets each
+        contain half of the data left over from removing the training set
+        
+        :param training_percentage: the percentage of the dataset that is in the training set
+        :type training_percentage: float
+        :param normalize: whether the training set should be normalized
+        :type normalize: boolean
+        :param remove_bias: whether the item and user biases should be removed from the training set
+        :type remove_bias: boolean
+        :param randomize: whether the dataset should be randomized
+        :type randomize: boolean
         """
         print "Splitting....\n"
         if self._data is None:
@@ -254,6 +281,9 @@ class DataModel:
     def _mean_normalize(self, data):
         """
         Mean-normalizes the data in the data set
+
+        :param data: the data to normalize
+        :type data: list of values
         """
         if data is None:
             print "There is no data to normalize"
@@ -266,6 +296,14 @@ class DataModel:
     def _calculate_bias(self, data, num_rows, num_cols):
         """
         Removes the user and item biases from the data
+
+        :param data: the dataset to remove the bias from
+        :type data: list of tuples
+        :param num_rows: the number of rows in the dataset
+        :type num_rows: int
+        :param num_cols: the number of columns in the dataset
+        :type num_cols: int
+
         """
         if data is None:
             print "There is no data to normalize"
