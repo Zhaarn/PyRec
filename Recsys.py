@@ -22,6 +22,7 @@ class Recsys:
             print "Please enter valid parameters"
         self._U = user_matrix
         self._I = item_matrix
+        self._mu = mean
         self._b = (user_bias, item_bias)
 
     def predict(self, user, item):
@@ -33,7 +34,7 @@ class Recsys:
         :param item: item index:
         :type item: int
         """
-        print "Prediction: %f" %  self._mu + self._b[0][user] - self._b[1][item] - (self._U[user, :] * self._I[:, item])[0]
+        print "Prediction: %f" %  (self._mu + self._b[0][user] - self._b[1][item] - (self._U[user, :] * self._I[:, item])[0])
     
     def similar(self, item1, item2):
         """

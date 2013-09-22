@@ -82,7 +82,7 @@ class Algorithm:
             self._U -= alpha*grad_U
             self._I -= alpha*grad_I
             if plot_cost:
-                cost = cost_function(reg)
+                cost = cost_function(reg, mean, biases)
                 y_data.append(cost)
                 x_data.append(i)
         
@@ -145,7 +145,6 @@ class Algorithm:
         if R is None:
             R = self._R
 
-        mu = self._mean
         #print "Calculating cost.........\n"
         error = mul((M - U * I), R) 
         sqerror = mul(error, error)

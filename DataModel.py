@@ -21,79 +21,79 @@ class DataModel:
             key and the index of the column is the value
         :type format: dict
         """
-            rows = []
-            columns = []
-            values = []
-            sys.stdout.write('Loading %s\n' % filename)
+        rows = []
+        columns = []
+        values = []
+        sys.stdout.write('Loading %s\n' % filename)
 
-            i = 0
-            for line in codecs.open(filename, 'r', 'utf8'):
-                data = line.strip('\r\n').split(sep)
-                value = None
-                if not data:
-                    raise TypeError('Data is empty or None!')
-                if not format:
-                    try:
-                        value, row_id, col_id = data
-                    except:
-                        value = 1
-                        row_id, col_id = data
-                else:
-                    try:
-                         # Default value is 1
-                        try:
-                            value = data[format['value']]
-                        except KeyError, ValueError:
-                            value = 1
-                        try: 
-                            row_id = data[format['row']]
-                        except KeyError:
-                            row_id = data[1]
-                        try:
-                            col_id = data[format['col']]
-                        except KeyError:
-                            col_id = data[2]
-                        row_id = row_id.strip()
-                        col_id = col_id.strip()
-                        if format.has_key('ids') and (format['ids'] == int or format['ids'] == 'int'):
-                            try:
-                                row_id = int(row_id)
-                            except:
-                                print 'Error (ID is not int) while reading: %s' % data #Just ignore that line
-                                continue
-                            try:
-                                col_id = int(col_id)
-                            except:
-                                print 'Error (ID is not int) while reading: %s' % data #Just ignore that line
-                                continue
-                    except IndexError:
-                        #raise IndexError('while reading %s' % data)
-                        print 'Error while reading: %s' % data #Just ignore that line
-                        continue
-                # Try to convert ids to int
+        i = 0
+        for line in codecs.open(filename, 'r', 'utf8'):
+            data = line.strip('\r\n').split(sep)
+            value = None
+            if not data:
+                raise TypeError('Data is empty or None!')
+            if not format:
                 try:
-                    row_id = int(row_id)
-                except: pass
-                try:
-                    col_id = int(col_id)
-                except: pass
-                try:
-                    value = float(value)
-                except: pass
-                # Add to list
-                try:
-                    rows.append(row_id-1)
-                    columns.append(col_id-1)
-                    values.append(value)
+                    value, row_id, col_id = data
                 except:
-                    sys.stdout.write('\nError while reading (%s, %s, %s). Skipping this tuple\n' % (value, row_id, col_id))
-                i += 1
+                    value = 1
+                    row_id, col_id = data
+            else:
+                try:
+                     # Default value is 1
+                    try:
+                        value = data[format['value']]
+                    except KeyError, ValueError:
+                        value = 1
+                    try: 
+                        row_id = data[format['row']]
+                    except KeyError:
+                        row_id = data[1]
+                    try:
+                        col_id = data[format['col']]
+                    except KeyError:
+                        col_id = data[2]
+                    row_id = row_id.strip()
+                    col_id = col_id.strip()
+                    if format.has_key('ids') and (format['ids'] == int or format['ids'] == 'int'):
+                        try:
+                            row_id = int(row_id)
+                        except:
+                            print 'Error (ID is not int) while reading: %s' % data #Just ignore that line
+                            continue
+                        try:
+                            col_id = int(col_id)
+                        except:
+                            print 'Error (ID is not int) while reading: %s' % data #Just ignore that line
+                            continue
+                except IndexError:
+                    #raise IndexError('while reading %s' % data)
+                    print 'Error while reading: %s' % data #Just ignore that line
+                    continue
+            # Try to convert ids to int
+            try:
+                row_id = int(row_id)
+            except: pass
+            try:
+                col_id = int(col_id)
+            except: pass
+            try:
+                value = float(value)
+            except: pass
+            # Add to list
+            try:
+                rows.append(row_id-1)
+                columns.append(col_id-1)
+                values.append(value)
+            except:
+                sys.stdout.write('\nError while reading (%s, %s, %s). Skipping this tuple\n' % (value, row_id, col_id))
+            i += 1
 
-            self._rows = rows
-            self._columns = columns
-            self._values = values
-            self._data = (rows, columns, values)
-            self._size = len(values)
+        self._rows = rows
+        self._columns = columns
+        self._values = values
+        self._data = (rows, columns, values)
+        self._size = len(values)
 
     def get_mean(self):
         """
