@@ -8,6 +8,11 @@ class DataModel:
     
 
     def load_from_file(self, filename, sep ='\t', format={'value':2, 'row':0, 'col':1}):
+        """
+        Loads data from a delimited file.  The file must have columns corresponding to
+        user, item and rating field.  Most of the code in this method was borrow from another
+        python recommender system at (https://github.com/ocelma/python-recsys.git)
+        """
             rows = []
             columns = []
             values = []
@@ -83,65 +88,101 @@ class DataModel:
             self._size = len(values)
 
     def get_mean(self):
+        """
+        Returns the mean of the training data set if it has been
+        mean-normalized
+        """
         if self._mean is not None:
             return self._mean
         else:
             print "The data has not been mean-normalized"
     
     def get_biases(self):
+        """
+        Returns a tuple of lists containing the values of the per item and
+        per user biases if the biased have been removed from the training
+        set
+        """
         if self._biases is not None:
             return self._biases
         else:
             print "The data still has user and item biases"
      
     def get_rows(self):
+        """
+        Returns a list containing the row indices of each element in the dataset
+        """
         if self._rows is not None:
             return self._rows
         else:
             print "No elements have been added to the dataset"
     
     def get_columns(self):
+        """
+        Returns a list containing the column indices of each element in dataset
+        """
         if self._columns is not None:
             return self._columns
         else:
             print "No elements have been added to the dataset"
 
     def get_values(self):
+        """
+        Returns the values containing the rating values in the dataset
+        """
         if self._values is not None:
             return self._values
         else:
             print "No elements have been added to the dataset"
 
     def get_training_data(self):
+        """
+        Returns a 3-tuple containing 3 lists (rows, columns, values) that comprise
+        the data in the training set
+        """
         if self._train is not None:
             return self._train
         else:
             print "There is currently no training data"
 
     def get_test_data(self):
+        """
+        Returns a 3-tuple containing 3 lists (rows, columns, values) that comprise
+        the data in the test set
+        """
         if self._test is not None:
             return self._test
         else:
             print "There is currently no test data"
 
     def get_validation_data(self):
+        """
+        Returns a 3-tuple containing 3 lists (rows, columns, values) that comprise
+        the data in the validation set
+        """
         if self._validate is not None:
             return self._validate
         else:
             print "There is currently no validation data"
 
     def get_size(self):
+        """
+        Returns the dimensions of the matrix
+        """
         if self._matrix_size is not None:
             return self._matrix_size
         else:
             print "There is no data available"
 
     def split_train_test(self, training_percentage=.80, normalize=True, remove_bias=True, randomize=False):
+        """
+        Splits the data into a training set and a test set
+        """
         print "Splitting....\n"
         if self._data is None:
             "There is no data to split"
             return
-
+        
         if randomize:
             randomized_data = self.randomize_data()
             self._rows = randomized_data[0]
@@ -163,6 +204,9 @@ class DataModel:
         self._test = (self._rows[train:], self._columns[train:], self._values[train:])
 
     def split_train_validate_test(self, training_percentage=.80, normalize=True, remove_bias=True, randomize=False):
+        """
+        Splits the data set into a training set, test set and validation set
+        """
         print "Splitting....\n"
         if self._data is None:
             print "There is no data in the data model"
@@ -193,6 +237,9 @@ class DataModel:
         self._test = (self._rows[validate:], self._columns[validate:], self._values[validate:])
     
     def _randomize_data(self):
+        """
+        Randomizes the order of the elements in the dataset
+        """
         list1_shuf = []
         list2_shuf = []
         list3_shuf = []
@@ -205,6 +252,9 @@ class DataModel:
         return(list1_shuf, list2_shuf, list3_shuf)
     
     def _mean_normalize(self, data):
+        """
+        Mean-normalizes the data in the data set
+        """
         if data is None:
             print "There is no data to normalize"
             return
@@ -214,12 +264,13 @@ class DataModel:
         return normalized_data
  
     def _calculate_bias(self, data, num_rows, num_cols):
+        """
+        Removes the user and item biases from the data
+        """
         if data is None:
             print "There is no data to normalize"
             return
         
-        print num_rows
-        print num_cols
         user_bias = [0] * num_rows
         num_users = defaultdict(int)
         item_bias = [0] * num_cols
