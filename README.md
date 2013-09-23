@@ -46,8 +46,7 @@ alg.rmse(test_data, dat.get_mean(), dat.get_biases())
 rec = Recsys(alg.get_user_matrix(), alg.get_item_matrix(), dat.get_mean(), *dat.get_biases())
 rec.predict(5, 600) # predict the user #5's rating for item #600
 rec.similar(5, 10) # prints out the similarity between items #5 and #10
-
-'''python
+```
 
 Lessons Learned
 =====
