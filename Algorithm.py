@@ -50,7 +50,7 @@ class Algorithm:
             print "The training matrix has not been initialized"
 
     #TODO: Add cost printing, make constants for plot measurements
-    def _gradient_descent(self, cost_function=None, gradient=None, alpha=.001, reg=.00001, plot_cost=False):
+    def _gradient_descent(self, cost_function=None, gradient=None, alpha=.00001, reg=.000001, plot_cost=False):
         """
         Performs gradient descent on the training matrix.
 
@@ -77,19 +77,19 @@ class Algorithm:
             y_data = []
         
         #print cost_function(reg)
-        for i in range(0,2000):
+        for i in range(0,10000):
             grad_U, grad_I = gradient(reg)
             self._U -= alpha*grad_U
             self._I -= alpha*grad_I
             if plot_cost:
-                cost = cost_function(reg, mean, biases)
+                cost = cost_function(reg)
                 y_data.append(cost)
                 x_data.append(i)
         
         if plot_cost:
             plt.scatter(x_data, y_data)
             plt.xlim((-10,2000))
-            plt.ylim((0,1))
+            plt.ylim((0,3000))
             plt.show()
 
     def _gradient(self, reg, M=None, U=None, I=None, R=None):
@@ -116,7 +116,6 @@ class Algorithm:
         if R is None:
             R = self._R
             
-        print "Calculating gradient.......\n"
         grad_U = mul((U * I - M), R) * I.trans() + reg * U
         grad_I = (mul((U * I - M), R).trans() * U).trans() + reg * I
         return (grad_U, grad_I)
@@ -149,7 +148,7 @@ class Algorithm:
         error = mul((M - U * I), R) 
         sqerror = mul(error, error)
         cost = sum(sqerror) + reg * (sum(U**2) + sum(I**2))
-        return (0.5*cost)/(self._ltrain)
+        return cost
 
     def train(self, training_data, size):
         """

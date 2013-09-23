@@ -38,11 +38,11 @@ class Recsys:
     
     def similar(self, item1, item2):
         """
-        Gives the similarity between two items/users
+        Gives the similarity between two items
         
-        :param item1: item/user index
+        :param item1: item index
         :type user: int
-        :param item2: item/user index:
+        :param item2: item index:
         :type item: int
         """
         
