@@ -7,7 +7,12 @@ Python Recommender System with SVD using gradient descent. The model can be trai
 Dependencies
 =====
 
-This recommender system implementation requires Python 2.7+, numpy (www.numpy.org) and the CVXOPT library (www.cvxopt.org).  Iused the CVXOPT library for its very good sparse matrix implementation.
+This recommender system implementation requires Python 2.7+, numpy (www.numpy.org) and the CVXOPT library (www.cvxopt.org).  I used the CVXOPT library for its very good sparse matrix implementation.
+
+Example
+=====
+
+Here is some example code for the project:
 
 ```python
 
@@ -42,7 +47,7 @@ rec = Recsys(alg.get_user_matrix(), alg.get_item_matrix(), dat.get_mean(), *dat.
 rec.predict(5, 600) # predict the user #5's rating for item #600
 rec.similar(5, 10) # prints out the similarity between items #5 and #10
 
-'''
+'''python
 
 Lessons Learned
 =====
