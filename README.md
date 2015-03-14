@@ -7,7 +7,7 @@ Python Recommender System with SVD using gradient descent. The model can be trai
 Dependencies
 =====
 
-This recommender system implementation requires Python 2.7+, numpy (www.numpy.org) and the CVXOPT library (www.cvxopt.org).  I used the CVXOPT library for its very good sparse matrix implementation.
+This recommender system implementation requires Python 2.7+, numpy (www.numpy.org) and the CVXOPT library (www.cvxopt.org). 
 
 Example
 =====
@@ -48,7 +48,4 @@ rec.predict(5, 600) # predict the user #5's rating for item #600
 rec.similar(5, 10) # prints out the similarity between items #5 and #10
 ```
 
-Lessons Learned
-=====
 
-The algorithm worked relatively well, and given a large enough dataset and a small enough learning rate, the rmse was close to about .5.  However, Python is not the best language to write a recommender system in, unless you are dropping down to C during parts of it.  Overall, although this recommender system works, it doesn't scale very well. It would have been better to write something like this in a lower level language.
